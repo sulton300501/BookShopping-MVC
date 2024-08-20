@@ -18,6 +18,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IHomeRepository , HomeRepository>();
+builder.Services.AddTransient<ICartRepository , CartRepository>();
+
+
+
 
 var app = builder.Build();
 

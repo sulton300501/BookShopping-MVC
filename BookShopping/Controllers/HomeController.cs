@@ -29,7 +29,10 @@ namespace BookShopping.Controllers
             BookDisplayModel bookModel = new BookDisplayModel()
             {
                 Books = books,
-                Genres = genres
+                Genres = genres,
+                STerm = sterm,
+                GenreId = genreId
+
             };
             return View(bookModel);
         }
