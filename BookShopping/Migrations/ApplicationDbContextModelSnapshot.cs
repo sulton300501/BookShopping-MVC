@@ -192,8 +192,9 @@ namespace BookShopping.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -416,7 +417,7 @@ namespace BookShopping.Migrations
                         .IsRequired();
 
                     b.HasOne("BookShopping.Models.ShoppingCart", "ShoppingCart")
-                        .WithMany()
+                        .WithMany("Cartsdetails")
                         .HasForeignKey("ShoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -522,6 +523,11 @@ namespace BookShopping.Migrations
             modelBuilder.Entity("BookShopping.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("BookShopping.Models.ShoppingCart", b =>
+                {
+                    b.Navigation("Cartsdetails");
                 });
 #pragma warning restore 612, 618
         }

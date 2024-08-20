@@ -12,6 +12,6 @@ namespace BookShopping.Models
         public int StatusId { get; set; }
         [Required , MaxLength(40)]
 
-        public string StatusName { get; set; }
+        public string? StatusName { get; set; }
     }
 }

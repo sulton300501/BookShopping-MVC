@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace BookShopping.Repositories
 {
+
     public class CartRepository : ICartRepository
     {
         private readonly ApplicationDbContext _context;
@@ -24,13 +25,13 @@ namespace BookShopping.Repositories
         {
 
             string userid = GetUserId();
-            using var transaction = _context.Database.BeginTransaction();
+            using var transaction =  _context.Database.BeginTransaction();
             try
             {
 
              
                 if (string.IsNullOrEmpty(userid))
-                    throw new Exception(" User is  not logges-in ");
+                    throw new UnauthorizedAccessException(" User is  not logges-in ");
                 var cart = await GetCart(userid);
 
                 if (cart is null)
@@ -56,11 +57,13 @@ namespace BookShopping.Repositories
                 }
                 else
                 {
+                    var book = _context.Books.Find(bookId);
                     cartItem = new CartDetail
                     {
                         BookId = bookId,
                         ShoppingCart_id = cart.Id,
                         Quantity = qty
+                       
 
 
                     };
@@ -91,7 +94,7 @@ namespace BookShopping.Repositories
 
             var userId = GetUserId();
             if (userId == null)
-                throw new Exception("Invalid userId");
+                throw new InvalidOperationException("Invalid userId");
 
             var shoppingCart = await _context.ShoppingCarts
                 .Include(a=>a.Cartsdetails)
@@ -177,20 +180,16 @@ namespace BookShopping.Repositories
 
         public async Task<int> GetCartItemCount(string userId="")
         {
-            if(!string.IsNullOrEmpty(userId))
+            if(string.IsNullOrEmpty(userId))
             {
                 userId = GetUserId();
             }
             var data = await (from cart in _context.ShoppingCarts
-                        join cartdetail in _context.CartDetails
-                        on cart.Id equals cartdetail.ShoppingCart_id
-                        select new
-                        {
-                            cartdetail.Id
-                        }
-
-
-                        ).ToListAsync();
+                              join cartDetail in _context.CartDetails
+                              on cart.Id equals cartDetail.ShoppingCart_id
+                              where cart.UserId == userId 
+                              select new { cartDetail.Id }
+                       ).ToListAsync();
 
             return data.Count;
 

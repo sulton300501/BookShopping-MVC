@@ -1,5 +1,6 @@
 using BookShopping;
 using BookShopping.Data;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,12 +24,13 @@ builder.Services.AddTransient<ICartRepository , CartRepository>();
 
 
 
+
 var app = builder.Build();
 
-/*using(var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
-  await   DbSeeder.SeedDefaultData(scope.ServiceProvider);
-}*/
+    await DbSeeder.SeedDefaultData(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

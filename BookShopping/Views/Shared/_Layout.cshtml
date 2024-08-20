@@ -66,19 +66,13 @@
      
     loadCartCount();
     async function loadCartCount() {
-        var usernameEl = document.getElementById("username")
-        console.log(usernameEl)
-        if (usernameEl != null) {
-
-        var username = usernameEl.innerText;
-        if(username.length<1){
-            window.location.href = "/Identity/Account/Login";
-        }
-
-        }
+       
+  
+        
         try {
 
             var response = await fetch(`/Cart/GetTotalItemCart`)
+
             console.log(response)
             if (response.status == 200) {
 
@@ -86,6 +80,7 @@
               
                 var cartCountEl = document.getElementById("cartCount")
                 cartCountEl.innerHTML = result;
+            
 
             }
         } catch (err) {

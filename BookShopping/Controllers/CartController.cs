@@ -17,7 +17,7 @@ namespace BookShopping.Controllers
         public async Task<IActionResult> AddItem(int bookId , int qty=1,int redirect=0)
         {
 
-            var cartCount = _cartRepo.AddItem(bookId, qty);
+            var cartCount = await _cartRepo.AddItem(bookId, qty);
             if (redirect == 0)
             {
                 return Ok(cartCount);
