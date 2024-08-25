@@ -23,10 +23,12 @@ namespace BookShopping.Models
         public List<OrderDetails> OrderDetails { get; set; }
         public List<CartDetail> CartDetail { get; set; }
 
+        public Stock Stock { get; set; }
 
         [NotMapped]
         public string GenreName { get; set; }
-
+        [NotMapped]
+        public int Quantity { get; set; }
 
     }
 }

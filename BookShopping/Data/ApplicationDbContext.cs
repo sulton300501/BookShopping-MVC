@@ -22,6 +22,7 @@ namespace BookShopping.Data
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<OrderStatus> OrderStatus { get; set; }
 
+        public DbSet<Stock> Stocks { get; set; }
 
 
 

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookShopping.Migrations
 {
     /// <inheritdoc />
-    public partial class hhhsssssssslldddddd : Migration
+    public partial class ssss : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -249,10 +249,9 @@ namespace BookShopping.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ShoppingCart_id = table.Column<int>(type: "integer", nullable: false),
+                    ShoppingCartid = table.Column<int>(type: "integer", nullable: false),
                     BookId = table.Column<int>(type: "integer", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    ShoppingCartId = table.Column<int>(type: "integer", nullable: false)
+                    Quantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -264,8 +263,8 @@ namespace BookShopping.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CartDetails_ShoppingCart_ShoppingCartId",
-                        column: x => x.ShoppingCartId,
+                        name: "FK_CartDetails_ShoppingCart_ShoppingCartid",
+                        column: x => x.ShoppingCartid,
                         principalTable: "ShoppingCart",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -347,9 +346,9 @@ namespace BookShopping.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartDetails_ShoppingCartId",
+                name: "IX_CartDetails_ShoppingCartid",
                 table: "CartDetails",
-                column: "ShoppingCartId");
+                column: "ShoppingCartid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_OrderStatusId",

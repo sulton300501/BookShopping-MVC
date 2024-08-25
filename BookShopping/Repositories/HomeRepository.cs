@@ -25,32 +25,33 @@ namespace BookShopping.Repositories
         {
             sTerm = sTerm.ToLower();
 
-            var booksQuery = _dbcontext.Books
-                .Join(_dbcontext.Genres,
-                    book => book.GenreId,
-                    genre => genre.Id,
-                    (book, genre) => new Book
-                    {
-                        Id = book.Id,
-                        Image = book.Image,
-                        AuthorName = book.AuthorName,
-                        BookName = book.BookName,
-                        GenreId = book.GenreId,
-                        Price = book.Price,
-                        GenreName = genre.GenreName,
-                    });
-
-            if (!string.IsNullOrWhiteSpace(sTerm))
-            {
-                booksQuery = booksQuery.Where(b => b.BookName.ToLower().StartsWith(sTerm));
-            }
+            IEnumerable<Book> books = await (from book in _dbcontext.Books
+                                             join genre in _dbcontext.Genres
+                                             on book.GenreId equals genre.Id
+                                             join stock in _dbcontext.Stocks
+                                             on book.Id equals stock.BookId
+                                             into book_stocks
+                                             from bookWithStock in book_stocks.DefaultIfEmpty()
+                                             where string.IsNullOrWhiteSpace(sTerm) || (book != null && book.BookName.ToLower().StartsWith(sTerm))
+                                             select new Book
+                                             {
+                                                 Id = book.Id,
+                                                 Image = book.Image,
+                                                 AuthorName = book.AuthorName,
+                                                 BookName = book.BookName,
+                                                 GenreId = book.GenreId,
+                                                 Price = book.Price,
+                                                 GenreName = genre.GenreName,
+                                                 Quantity = bookWithStock == null ? 0 : bookWithStock.Quantity
+                                             }
+                        ).ToListAsync();
 
             if (genreId > 0)
             {
-                booksQuery = booksQuery.Where(b => b.GenreId == genreId);
+                books = books.Where(b => b.GenreId == genreId);
             }
 
-            return await booksQuery.ToListAsync();
+            return  books;
         }
 
     }

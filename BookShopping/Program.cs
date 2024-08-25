@@ -1,6 +1,6 @@
 using BookShopping;
 using BookShopping.Data;
-
+using BookShoppingCartMvcUI.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +20,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IHomeRepository , HomeRepository>();
 builder.Services.AddTransient<ICartRepository , CartRepository>();
+builder.Services.AddTransient<IUserOrderRepository, UserOrderRepository>();
 
 
 

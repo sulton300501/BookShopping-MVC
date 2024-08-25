@@ -3,6 +3,7 @@ using System;
 using BookShopping.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookShopping.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240825060306_ssss")]
+    partial class ssss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,9 +75,6 @@ namespace BookShopping.Migrations
 
                     b.Property<int>("ShoppingCartid")
                         .HasColumnType("integer");
-
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -199,28 +199,6 @@ namespace BookShopping.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShoppingCart");
-                });
-
-            modelBuilder.Entity("BookShopping.Models.Stock", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId")
-                        .IsUnique();
-
-                    b.ToTable("Stock");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -479,17 +457,6 @@ namespace BookShopping.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("BookShopping.Models.Stock", b =>
-                {
-                    b.HasOne("BookShopping.Models.Book", "Book")
-                        .WithOne("Stock")
-                        .HasForeignKey("BookShopping.Models.Stock", "BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -546,9 +513,6 @@ namespace BookShopping.Migrations
                     b.Navigation("CartDetail");
 
                     b.Navigation("OrderDetails");
-
-                    b.Navigation("Stock")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BookShopping.Models.Genre", b =>
