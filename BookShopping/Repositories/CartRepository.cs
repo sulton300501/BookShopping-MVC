@@ -38,7 +38,7 @@ namespace BookShoppingCartMvcUI.Repositories
                 // cart detail section
                 var cartItem = _db.CartDetails
                                   .FirstOrDefault(a => a.ShoppingCartid == cart.Id && a.BookId == bookId);
-                var book = _db.Books.Include(b => b.Stock).FirstOrDefault(b => b.Id == bookId);
+              /*  var book = _db.Books.Include(b => b.Stock).FirstOrDefault(b => b.Id == bookId);*/
 
                 if (cartItem is not null)
                 {
@@ -52,7 +52,7 @@ namespace BookShoppingCartMvcUI.Repositories
                         BookId = bookId,
                         ShoppingCartid = cart.Id,
                         Quantity = qty,
-                        UnitPrice = book.Price  // it is a new line after update
+                        UnitPrice = books.Price  // it is a new line after update
                     };
                     _db.CartDetails.Add(cartItem);
                 }
@@ -133,6 +133,73 @@ namespace BookShoppingCartMvcUI.Repositories
                         ).ToListAsync();
             return data.Count;
         }
+
+
+
+
+        public async Task<bool> DoCheckout()
+        {
+            using var transaction = _db.Database.BeginTransaction();
+
+            try
+            {
+                var userId = GetUserId();
+                if (string.IsNullOrEmpty(userId))
+                    throw new Exception("User is  not logged-in");
+                var cart = await GetCart(userId);
+                if (cart is null)
+                    throw new Exception("Invalid cart");
+                var cartDetail = _db.CartDetails
+                                                .Where(a => a.ShoppingCartid == cart.Id).ToList();
+                if (cartDetail.Count == 0)
+                    throw new Exception("Cart is empty");
+
+                var order = new Order
+                {
+                    UserId = userId,
+                    CreateDate = DateTime.UtcNow,
+                    OrderStatusId = 1
+                };
+
+                _db.Orders.Add(order);
+                await _db.SaveChangesAsync();
+                foreach (var item in cartDetail)
+                {
+                    var orderDetail = new OrderDetails
+                    {
+                        BookId = item.BookId,
+                        OrderId = order.Id,
+                        Quantity = item.Quantity,
+                        UnitPrice = item.UnitPrice,
+                    };
+
+                    _db.OrderDetails.Add(orderDetail);
+                }
+               await  _db.SaveChangesAsync();
+                 _db.CartDetails.RemoveRange(cartDetail);
+               await  _db.SaveChangesAsync();
+                 transaction.Commit();
+                return true;
+               
+
+            }catch (Exception ex)
+            {
+                return false;
+            }
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
 
 
         private string GetUserId()

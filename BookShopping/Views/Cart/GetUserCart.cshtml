@@ -42,7 +42,7 @@
                         @* Increase Quantity button should be invisible if not enough stock*@
                         @if (item.Book.Stock != null && item.Quantity < item.Book.Stock.Quantity)
                         {
-                            <a class="btn btn-info" href="/Cart/AddItem?bookId=@item.BookId&&redirect=1">+</a>
+                            <a class="btn btn-info" href="/Cart/AddItem?bookId=item.BookId&&redirect=1">+</a>
                         }
                         else
                         {

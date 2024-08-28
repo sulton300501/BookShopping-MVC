@@ -47,6 +47,14 @@ namespace BookShopping.Controllers
         }
 
 
+        public async Task<IActionResult> Checkout()
+        {
+            bool isCheckedOut = await _cartRepo.DoCheckout();
+            if (!isCheckedOut)
+                throw new Exception("Something happen wrong");
+            return RedirectToAction("Index", "Home");
+        }
+
 
     }
 }

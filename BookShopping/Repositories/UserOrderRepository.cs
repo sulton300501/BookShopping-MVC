@@ -26,7 +26,7 @@ namespace BookShopping.Repositories
             }
             var orders = await _context.Orders
                 .Include(x=>x.OrderStatus)
-                .Include(x=>x.OrderDetails)
+                .Include(x=>x.OrderDetail)
                 .ThenInclude(x=>x.Book)
                 .ThenInclude(x=>x.Genre)
                 .Where(a=>a.UserId==userid)
