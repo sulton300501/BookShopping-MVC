@@ -12,10 +12,10 @@ namespace BookShopping.Models
         public DateTime CreateDate { get; set; } = DateTime.UtcNow;
         [Required]
         public int OrderStatusId { get; set; }
-     /*   public bool IsDeleted { get; set; } = false;
+      /*  public bool IsDeleted { get; set; } = false;*/
         [Required]
-        [MaxLength(30)]*/
-      /*  public string? Name { get; set; }
+        [MaxLength(30)]
+        public string? Name { get; set; }
 
         [Required]
         [EmailAddress]
@@ -29,7 +29,7 @@ namespace BookShopping.Models
         [Required]
         [MaxLength(30)]
         public string? PaymentMethod { get; set; }
-        public bool IsPaid { get; set; }*/
+        public bool IsPaid { get; set; }
 
         public OrderStatus OrderStatus { get; set; }
         public List<OrderDetails> OrderDetail { get; set; }

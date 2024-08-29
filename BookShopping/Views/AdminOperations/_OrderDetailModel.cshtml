@@ -1,0 +1,38 @@
+﻿@model OrderDetailModalDTO
+
+
+
+<div class="modal fade" id="modal-@Model.Divid" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Order Detail</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Book</th>
+                        <th>Genre</th>
+                        <th>Price</th>
+                        <th>Quantiy</th>
+                        <th>TotalPrice</th>
+                    </tr>
+                    @foreach (var item in Model.OrderDetail)
+                    {
+                        <tr>
+                            <td>@item.Book.BookName</td>
+                            <td>@item.Book.Genre.GenreName</td>
+                            <td>@item.UnitPrice</td>
+                            <td>@item.Quantity</td>
+                            <td>@(item.Quantity * item.UnitPrice)</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Open second modal</button>
+            </div>
+        </div>
+    </div>
+</div>

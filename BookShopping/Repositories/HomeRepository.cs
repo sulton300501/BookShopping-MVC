@@ -24,7 +24,6 @@ namespace BookShopping.Repositories
         public async Task<IEnumerable<Book>> GetBooks(string sTerm = "", int genreId = 0)
         {
             sTerm = sTerm.ToLower();
-
             IEnumerable<Book> books = await (from book in _dbcontext.Books
                                              join genre in _dbcontext.Genres
                                              on book.GenreId equals genre.Id
@@ -44,7 +43,7 @@ namespace BookShopping.Repositories
                                                  GenreName = genre.GenreName,
                                                  Quantity = bookWithStock == null ? 0 : bookWithStock.Quantity
                                              }
-                        ).ToListAsync();
+                         ).ToListAsync();
 
             if (genreId > 0)
             {
